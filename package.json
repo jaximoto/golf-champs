@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.49.1",
     "bootstrap": "^5.3.3",
     "latest": "^0.2.0",
     "mkdirp": "^3.0.1",
