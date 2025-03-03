@@ -1,23 +1,14 @@
-import ListGroup from "./components/ListGroup";
-import Title from "./components/Title";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Home from "./pages/home";
 function App() {
-  const items = ["New York", "San Fransisco", "Tokyo", "London"];
-
-  const title = "Golf Champs";
-  const HandleSelectedItem = (item: string) => {
-    console.log(item);
-  };
+ 
   return (
-    <>
-      <Title text={title} />
-
-      <ListGroup
-        items={items}
-        heading="Cities"
-        onSelectItem={HandleSelectedItem}
-      />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+      </Routes>
+    </Router>
   );
 }
 export default App;
