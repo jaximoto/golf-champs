@@ -38,7 +38,7 @@ function Register() {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="exampleEmail">Email address</label>
+            <label htmlFor="exampleEmail">Email Address</label>
             <input
               className="form-control"
               id="exampleEmail"
