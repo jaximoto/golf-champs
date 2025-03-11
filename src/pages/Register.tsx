@@ -1,12 +1,14 @@
 import { useState } from "react";
 import supabase from "../client";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-
+  const [role, setRole] = useState("SelectRole");
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setMessage("");
@@ -22,6 +24,7 @@ function Register() {
     }
     if (data) {
       setMessage("User account created!");
+      navigate("/emailVerification");
     }
     setEmail("");
     setPassword("");
@@ -64,6 +67,37 @@ function Register() {
               required
               placeholder="Password"
             />
+          </div>
+          <div className="dropdown mt-3">
+            <button
+              className="btn btn-secondary dropdown-toggle"
+              type="button"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {role}
+            </button>
+            {isOpen && (
+              <div className="dropdown-menu show">
+                <button
+                  className="dropdown-item"
+                  onClick={() => {
+                    setRole("Golfer");
+                    setIsOpen(false);
+                  }}
+                >
+                  Golfer
+                </button>
+                <button
+                  className="dropdown-item"
+                  onClick={() => {
+                    setRole("Clubhouse");
+                    setIsOpen(false);
+                  }}
+                >
+                  Clubhouse
+                </button>
+              </div>
+            )}
           </div>
           <button type="submit" className="btn btn-primary w-100 mt-3">
             Create Account
