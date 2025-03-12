@@ -6,27 +6,25 @@ import { Link } from "react-router-dom";
 //</button>
 //<div className="collapse navbar-collapse" id="navbarSupportedContent">
 //</div>
-function Navigate() {
+function Navbar() {
   return (
-    <nav className="navbar-inline bg-light fixed-top">
-      
-      <ul className="navbar-nav mg-inline">
-        <li className="nav-item">
-          <Link className="navbar-item" to="/">Home</Link>
+    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <ul className="navbar-nav mr-auto mx-auto">        
+        <li className="navbar-item">
+          <Link className="nav-link" to="/">Home</Link>
         </li>
-        <li className="nav-item active">
+        <li className="navbar-item">
           <Link className="nav-link" to="/login">Login</Link>
         </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/register">register</Link>
+        <li className="navbar-item">
+          <Link className="nav-link" to="/register">Register</Link>
         </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/register">register</Link>
+        <li>
+          <Link className="nav-link" to="/">ur moms house</Link>
         </li>
       </ul>
-      
     </nav>
   )
 }
 
-export default Navigate;
+export default Navbar;
