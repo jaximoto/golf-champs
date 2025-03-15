@@ -14,6 +14,10 @@ function Register() {
   const navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (role == "Select Role") {
+      alert("Please select a role before submitting.");
+      return;
+    }
     setMessage("");
 
     const { data, error } = await supabase.auth.signUp({
