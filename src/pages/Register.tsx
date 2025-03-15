@@ -1,6 +1,7 @@
 import { useState } from "react";
 import supabase from "../client";
 import { Link, useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -39,6 +40,8 @@ function Register() {
     setPassword("");
   };
   return (
+    <>
+    <Navbar/>
     <div className=" d-flex  flex-column justify-content-center align-items-center vh-100">
       <h1>Create Account</h1>
 
@@ -143,6 +146,7 @@ function Register() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 export default Register;
