@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import EmailVerification from "./pages/EmailVerification";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./pages/Profile";
 function App() {
   return (
     <Router>
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
         <Route path="/emailVerification" element={<EmailVerification />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );

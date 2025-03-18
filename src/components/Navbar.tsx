@@ -6,10 +6,19 @@ import ProfileIcon from "./ProfileIcon";
 //</button>
 //<div className="collapse navbar-collapse" id="navbarSupportedContent">
 //</div>
+
+
+//setup navbar to change based on user session data
+
+
 function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <ProfileIcon></ProfileIcon>
+    <nav className="navbar navbar-light bg-light fixed-top navbar-expand-lg">
+      <a className="navbar-brand">
+        <Link className="nav-link" to="/profile">        
+          <ProfileIcon></ProfileIcon>
+        </Link>
+      </a>
       <ul className="navbar-nav mr-auto mx-auto">        
         <li className="navbar-item">
           <Link className="nav-link" to="/">Home</Link>
@@ -24,6 +33,7 @@ function Navbar() {
           <Link className="nav-link" to="/dashboard">Dashboard</Link>
         </li>
       </ul>
+
     </nav>
   )
 }
