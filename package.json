@@ -1,5 +1,5 @@
 {
-  "name": "golf-app",
+  "name": "test",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,14 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@supabase/ssr": "^0.5.2",
+    "@mdx-js/mdx": "^3.1.0",
     "@supabase/supabase-js": "^2.49.1",
     "bootstrap": "^5.3.3",
-    "latest": "^0.2.0",
-    "mkdirp": "^3.0.1",
     "react": "^19.0.0",
+    "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.2.0"
+    "react-router-dom": "^7.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -25,7 +24,7 @@
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",
-    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
     "typescript": "~5.7.2",
