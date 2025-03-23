@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@mdx-js/mdx": "^3.1.0",
+    "@supabase-cache-helpers/postgrest-react-query": "^1.12.0",
     "@supabase/supabase-js": "^2.49.1",
     "bootstrap": "^5.3.3",
     "react": "^19.0.0",
