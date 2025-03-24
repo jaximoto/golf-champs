@@ -1,10 +1,11 @@
-import supabase from "../client";
+import { Client } from "../client";
 
-export function getProfileByID(userID:string){
+export function getProfileByID(client: Client, userID:string){
     
-    return supabase
+    return client
     .from("profile")
     .select("role")
     .eq("id", userID)
+    .throwOnError()
     .single();
 }
