@@ -1,37 +1,26 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import supabase from "../client";
+import { useQuery } from "@supabase-cache-helpers/postgrest-react-query";
+import useClient from "../hooks/useSupabaseClient";
+import { getRoleByID } from "../queries/getRoleByUserID";
 
 
 interface Props{
     children : React.ReactNode;
-    requiredRole? : string;
+    requiredRole : string | null;
 }
 const ProtectedRoute = ({children, requiredRole} : Props) => {
-    const [loading, setLoading] = useState(true);
-    const [role, setRole] = useState("");
+    const [userId, setUserId] = useState<string | null>(null);
     const navigate = useNavigate();
-
+    const client = useClient();
     useEffect(() => {
         const checkAuth = async () => {
-            const { data: { user }, error } = await supabase.auth.getUser();
+            const { data: { user }, error } = await client.auth.getUser();
 
             if (error || !user) {
                 navigate("/login");  // Redirect to login if not authenticated
             } else {
-                // if no error and we got a user, check what their role is
-                const {data, error: roleError} = await supabase
-                    .from("profile")
-                    .select("role")
-                    .eq("id", user.id)
-                    .single();
-                if (roleError || !data){
-                    console.error("Error fetching role:", roleError.message);
-                    navigate("/login");
-                    return;
-                }
-                setRole(data.role);
-                setLoading(false);
+               setUserId(user.id)
                 
                 
                 
@@ -39,25 +28,27 @@ const ProtectedRoute = ({children, requiredRole} : Props) => {
         };
 
         checkAuth();
-    }, [navigate]);
+    }, [client, navigate]);
 
-    // Check if user has the required role AFTER loading
-    useEffect(() => {
-        if (!loading && requiredRole && role !== requiredRole) {
-            navigate("/unauthorized"); // Redirect if user lacks permission
+     // if no error and we got a user, check what their role is
+     if (userId){
+        const {data: role, isLoading, isError, error} = useQuery(getRoleByID(client, userId));
+        if (isError || !role){
+            console.error("Error fetching role: ", error?.message);
+            navigate("/login");
+            return;
         }
-        /*
-        if we need it to include multiple roles and make required roles an array
-        if (!loading && requiredRole && !requiredRole.includes(role)) {
-            navigate("/unauthorized"); // Redirect if user lacks any required role
-        }
-        */
-
-
+        if (isLoading) {
+            return <div>Loading...</div>;
+          }
         
-    }, [role, loading, requiredRole, navigate]);
-
-    if (loading) return <p>Loading...</p>; // Show loading while fetching auth
+        if (!role && requiredRole != null){
+            if (role != requiredRole)
+                navigate("/unauthorized");
+        }
+        
+     }
+     
 
     return <>{children}</>;
     

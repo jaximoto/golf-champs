@@ -1,6 +1,6 @@
 import { Client } from "../client";
 
-export function getProfileByID(client: Client, userID:string){
+export function getRoleByID(client: Client, userID:string){
     
     return client
     .from("profile")

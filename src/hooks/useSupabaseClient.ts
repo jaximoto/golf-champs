@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import supabase from "../client";
+import getSupabaseClient from "../client";
 
 function useClient(){
-    return useMemo(supabase, []);
+    return useMemo(getSupabaseClient, []);
 }
 export default useClient;
