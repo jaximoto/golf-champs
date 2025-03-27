@@ -1,11 +1,11 @@
 import { useState } from "react";
-import supabase from "../client";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import useClient from "../hooks/useSupabaseClient";
 
 function Login() {
  
-  
+    const client = useClient();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
@@ -14,7 +14,7 @@ function Login() {
       event.preventDefault();
       setMessage("");
   
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await client.auth.signInWithPassword({
         email: email,
         password: password,
       });

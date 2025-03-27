@@ -6,9 +6,12 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import EmailVerification from "./pages/EmailVerification";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Profile from "./pages/Profile";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 function App() {
   return (
+    <QueryClientProvider client={queryClient}>
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -19,6 +22,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
+    </QueryClientProvider>
   );
 }
 export default App;
