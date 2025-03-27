@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { useQuery } from "@supabase-cache-helpers/postgrest-react-query";
 import useClient from "../hooks/useSupabaseClient";
 import { getRoleByID } from "../queries/getRoleByUserID";
@@ -15,12 +15,13 @@ const ProtectedRoute = ({children, requiredRole} : Props) => {
     const navigate = useNavigate();
     const client = useClient();
     
+    // Maybe get the user and pass it down to this function somehow, or get it somewhere else so this component can wait on it?
     useEffect(() => {
         const checkAuth = async () => {
             const { data: { user }, error } = await client.auth.getUser();
 
             if (error || !user) {
-                navigate("/login");  // Redirect to login if not authenticated
+                throw redirect("login");
             } else {
                setUserId(user.id)
                 
@@ -32,13 +33,14 @@ const ProtectedRoute = ({children, requiredRole} : Props) => {
         checkAuth();
     }, []);
 
+    
      // if no error and we got a user, check what their role is
-     const {data: role, isLoading, isError, error} = useQuery(
+    const {data: role, isLoading, isError, error} = useQuery(
         getRoleByID(client, userId), 
        {
            enabled: !!userId,
        });
-
+    /*
      useEffect(() => {
         const redirectCheck = () => {
             
@@ -52,7 +54,7 @@ const ProtectedRoute = ({children, requiredRole} : Props) => {
                if (isLoading) {
                    return <div>Loading...</div>;
                  }
-                   */
+                   
                
                if (!role && role != undefined &&  requiredRole != undefined){
                    if (role != requiredRole)
@@ -60,7 +62,22 @@ const ProtectedRoute = ({children, requiredRole} : Props) => {
                }
         };
         redirectCheck();
-     }, [role, isError, error, navigate, requiredRole]); 
+     }, []); 
+     */
+     if (error || !role){
+        console.error("Error fetching role: ", error?.message);
+        navigate("/login");
+        //return;
+    }
+    
+    
+    
+        
+    
+    if (!role && role != undefined &&  requiredRole != undefined){
+        if (role != requiredRole)
+            navigate("/unauthorized");
+    }
         
         
     
