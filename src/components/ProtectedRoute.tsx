@@ -3,16 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@supabase-cache-helpers/postgrest-react-query";
 import useClient from "../hooks/useSupabaseClient";
 import { getRoleByID } from "../queries/getRoleByUserID";
+import getSupabaseClient from "../client";
 
 
 interface Props{
     children : React.ReactNode;
-    requiredRole : string | null;
+    requiredRole? : string;
 }
 const ProtectedRoute = ({children, requiredRole} : Props) => {
-    const [userId, setUserId] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string>("");
     const navigate = useNavigate();
     const client = useClient();
+    
     useEffect(() => {
         const checkAuth = async () => {
             const { data: { user }, error } = await client.auth.getUser();
@@ -28,30 +30,44 @@ const ProtectedRoute = ({children, requiredRole} : Props) => {
         };
 
         checkAuth();
-    }, [client, navigate]);
+    }, []);
 
      // if no error and we got a user, check what their role is
-     if (userId){
-        const {data: role, isLoading, isError, error} = useQuery(getRoleByID(client, userId));
-        if (isError || !role){
-            console.error("Error fetching role: ", error?.message);
-            navigate("/login");
-            return;
-        }
-        if (isLoading) {
-            return <div>Loading...</div>;
-          }
-        
-        if (!role && requiredRole != null){
-            if (role != requiredRole)
-                navigate("/unauthorized");
-        }
-        
-     }
-     
+     const {data: role, isLoading, isError, error} = useQuery(
+        getRoleByID(client, userId), 
+       {
+           enabled: !!userId,
+       });
 
-    return <>{children}</>;
+     useEffect(() => {
+        const redirectCheck = () => {
+            
+               if (error || !role){
+                   console.error("Error fetching role: ", error?.message);
+                   navigate("/login");
+                   //return;
+               }
+               
+               /*
+               if (isLoading) {
+                   return <div>Loading...</div>;
+                 }
+                   */
+               
+               if (!role && role != undefined &&  requiredRole != undefined){
+                   if (role != requiredRole)
+                       navigate("/unauthorized");
+               }
+        };
+        redirectCheck();
+     }, [role, isError, error, navigate, requiredRole]); 
+        
+        
     
+     
+    
+    return <>{children}</>;
+        
 };
 
 export default ProtectedRoute;

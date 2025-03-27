@@ -6,8 +6,12 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import EmailVerification from "./pages/EmailVerification";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 function App() {
   return (
+    <QueryClientProvider client={queryClient}>
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -17,6 +21,7 @@ function App() {
         <Route path="/emailVerification" element={<EmailVerification />} />
       </Routes>
     </Router>
+    </QueryClientProvider>
   );
 }
 export default App;
